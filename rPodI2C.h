@@ -17,6 +17,6 @@ extern uint16_t bufferLength;
 void initReceiver();
 void receiveBytes(uint8_t* data, uint16_t length);
 void processBuffer();
-void processFrame(uint8_t *frameBuffer, uint16_t length);
+_Bool processFrame(uint8_t *frameBuffer, uint16_t length);
 
 #endif 

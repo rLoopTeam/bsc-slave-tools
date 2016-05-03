@@ -106,7 +106,7 @@ void processBuffer()
 
 }
 
-bool processFrame(uint8_t *frameBuffer, uint16_t length)
+_Bool processFrame(uint8_t *frameBuffer, uint16_t length)
 {
 
 	int x;
