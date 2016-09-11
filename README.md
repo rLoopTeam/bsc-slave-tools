@@ -1,2 +1,2 @@
 # bsc-slave-tools
-Various additional tools for using the I2C kernel module.
+The Pi's I/O library to facilitate data between the RM48 and the ground station.

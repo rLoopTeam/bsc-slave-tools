@@ -1,16 +1,10 @@
 CC=g++
 
-all: i2ccat i2ccatChar i2ccatHex setParameter
+all: uarttelemetry
 
-i2ccat:
-	$(CC) rPodI2C.c i2ccat.c -o i2ccat
-
-i2ccatChar:
-	$(CC) rPodI2C.c i2ccatChar.c -o i2ccatChar
+uarttelemetry:
+	$(CC) rI2CRX.c rI2CTX.c rPodSerialPort.c rPodReceivedData.c uarttelemetry.c -lzmq -o uarttelemetry
 	
-i2ccatHex:
-	$(CC) rPodI2C.c i2ccatHex.c -o i2ccatHex
-		
 setParameter:
 	$(CC) rI2CTX.cpp setParameter.cpp -o i2cSetParameter
 	
