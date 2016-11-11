@@ -3,7 +3,7 @@
 #include "string.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "teensyByteOrder.h"
 
 uint8_t buffer[I2C_BUFFER_SIZE];
 uint16_t bufferBegin;
@@ -232,7 +232,7 @@ void receiveParam(uint8_t type, uint16_t index, uint64_t rawData)
 					break;
 
 		case 0x21:	receivedParam.val = &temp_2byte;
-					*((int16_t*)receivedParam.val) = (int16_t)ntohs((int16_t)rawData);
+					*((int16_t*)receivedParam.val) = (int16_t)ntohs((uint16_t)rawData);
 					receivedParam.length = 2;	
 					break;
 
@@ -242,7 +242,7 @@ void receiveParam(uint8_t type, uint16_t index, uint64_t rawData)
 					break;
 
 		case 0x41: 	receivedParam.val = &temp_4byte;
-					*((int32_t*)receivedParam.val) = ntohl((int32_t)rawData);
+					*((int32_t*)receivedParam.val) = ntohl((uint32_t)rawData);
 					receivedParam.length = 4;
 					break;
 
@@ -252,7 +252,7 @@ void receiveParam(uint8_t type, uint16_t index, uint64_t rawData)
 					break;
 					
 		case 0x81: 	receivedParam.val = &temp_8byte;
-					*((int64_t*)receivedParam.val) = (int64_t)be64toh((uint64_t)rawData);
+					*((int64_t*)receivedParam.val) = (uint64_t)be64toh((uint64_t)rawData);
 					receivedParam.length = 8;
 					break;
 
@@ -262,15 +262,14 @@ void receiveParam(uint8_t type, uint16_t index, uint64_t rawData)
 					break;
 					
 		case 0x43:	receivedParam.val = &temp_4byte;
-					rawData = be64toh((uint64_t)rawData);
-					rawData = rawData >> 32;
-					memcpy(receivedParam.val, &rawData, 4);
+					*((int32_t*)receivedParam.val) = ntohl((uint32_t)rawData);
+					//memcpy(receivedParam.val, &rawData, 4);
 					receivedParam.length = 4;
 					break;
 					
 		case 0x83:	receivedParam.val = &temp_8byte;
-					rawData = be64toh((uint64_t)rawData);
-					memcpy(receivedParam.val, &rawData, 8);
+					*((uint64_t*)receivedParam.val) = be64toh((uint64_t)rawData);
+					//memcpy(receivedParam.val, &rawData, 8);
 					receivedParam.length = 8;
 					break;
 					

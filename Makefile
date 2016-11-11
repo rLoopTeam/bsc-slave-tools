@@ -1,10 +1,10 @@
-CC=g++
+CC=gcc
 
-all: uarttelemetry
+all: uarttelemetry uartSetParameter
 
 uarttelemetry:
 	$(CC) rI2CRX.c rI2CTX.c rPodSerialPort.c rPodReceivedData.c uarttelemetry.c -lzmq -o uarttelemetry
 	
-setParameter:
-	$(CC) rI2CTX.cpp setParameter.cpp -o i2cSetParameter
+uartSetParameter:
+	$(CC) rI2CRX.c rI2CTX.c rPodSerialPort.c uartSetParameter.c -lzmq -o uartSetParameter
 	

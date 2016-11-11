@@ -80,7 +80,7 @@ uint16_t rI2CTX_endFrame()
 	return rI2CTX_bufferPos;
 }
 
-rI2CTX_addHeader(uint8_t dataType, uint16_t index)
+void rI2CTX_addHeader(uint8_t dataType, uint16_t index)
 {
 	rI2CTX_add_unchecked_byte(RPOD_I2C_CONTROL_CHAR);
 	rI2CTX_add_checked_byte(RPOD_I2C_PARAMETER_START);
@@ -176,7 +176,7 @@ void rI2CTX_addParameter_int32(uint16_t index, int32_t data)
 
 void rI2CTX_addParameter_uint32(uint16_t index, uint32_t data)
 {
-	rI2CTX_addHeader(0x41,index);
+	rI2CTX_addHeader(0x42,index);
 
 	uint16_t i;
 

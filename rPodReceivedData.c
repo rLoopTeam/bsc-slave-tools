@@ -12,7 +12,7 @@ void newData(struct rI2CRX_decParam decParam){
 	dataCache_t * temp = dataCacheHead;
 	
 	if(temp == NULL){
-		dataCacheHead = malloc(sizeof(dataCache_t));
+		dataCacheHead = (dataCache_t*)malloc(sizeof(dataCache_t));
 		dataCacheHead->next = NULL;
 		memcpy(&dataCacheHead->decParam,&decParam, sizeof(rI2CRX_decParam_t));
 		void *data = malloc(decParam.length);
@@ -40,7 +40,7 @@ void newData(struct rI2CRX_decParam decParam){
 	}
 
 	//Not in our cache, got to add it
-	dataCache_t * temp2 = malloc(sizeof(dataCache_t));
+	dataCache_t * temp2 = (dataCache_t*)malloc(sizeof(dataCache_t));
 	temp2->next = NULL;
 	temp2->decParam.val = malloc(decParam.length);
 	memcpy(temp2->decParam.val,decParam.val,decParam.length);
