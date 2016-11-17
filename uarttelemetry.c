@@ -92,8 +92,20 @@ void endFrame()
 
 }
 
-int main(void){
+int main(int argc, char*argv[]){
 
+	int baudrate = 0;
+	//Check if a baudrate was given
+	if(argc >= 1)
+		if (sscanf (argv[1], "%i", &baudrate)!=1) {}
+
+	baudrate = parse_baud(baudrate);
+	if(baudrate == 0)
+	{
+		baudrate = parse_baud(9600);
+		printf("Invalid baud rate, defaulting to 9600.");
+	}
+	
 	char buffer[20];
 
 	//Check if there's a config file specifying this node's name
@@ -125,7 +137,7 @@ int main(void){
 		return -20;
 	}
 
-	set_interface_attribs (fd, B57600);  // set speed to 921,600 bps, 8n1 (no parity)
+	set_interface_attribs (fd, baudrate); 
 	
 	//Seems to be required to flush everything when the interface settings are changed
 	//otherwise we don't get any data when the Pi is first booted and this is run

@@ -21,7 +21,7 @@ void recvParam(struct rI2CRX_decParam decParam);
 
 void recvParam(struct rI2CRX_decParam decParam)
 {
-/*
+
 	printf("%d ",decParam.index);
 	switch(decParam.type)
 	{
@@ -35,7 +35,7 @@ void recvParam(struct rI2CRX_decParam decParam)
 		case rI2C_UINT64: printf("\tUINT64 %"PRId64"\n",*(uint64_t*)(decParam.val));break;
 		case rI2C_FLOAT: printf("\tFLOAT %f\n",*(float*)(decParam.val));break;
 		case rI2C_DOUBLE: printf("\tDOUBLE %f\n",*(double*)(decParam.val));break;
-	}*/
+	}
 	switch(decParam.type)
 	{
 		case rI2C_INT8: rI2CTX_addParameter_int8(decParam.index, *(int8_t*)(decParam.val));break;
@@ -61,8 +61,20 @@ void endFrame()
 
 }
 
-int main(void){
+int main(int argc, char*argv[]){
 	char *portname = "/dev/ttyAMA0";
+
+	int baudrate = 0;
+	//Check if a baudrate was given
+	if(argc >= 1)
+		if (sscanf (argv[1], "%i", &baudrate)!=1) {}
+
+	baudrate = parse_baud(baudrate);
+	if(baudrate == 0)
+	{
+		baudrate = parse_baud(9600);
+		printf("Invalid baud rate, defaulting to 9600.");
+	}
 
 	int fd = open (portname, O_WRONLY | O_NOCTTY | O_SYNC);
 	if (fd < 0)
@@ -71,7 +83,7 @@ int main(void){
 		return;
 	}
 
-	set_interface_attribs (fd, B57600);  // set speed to 921,600 bps, 8n1 (no parity)
+	set_interface_attribs (fd, baudrate);  
 	
 	//Seems to be required to flush everything when the interface settings are changed
 	//otherwise we don't get any data when the Pi is first booted and this is run
